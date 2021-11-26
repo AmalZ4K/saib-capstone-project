@@ -2,19 +2,54 @@ package com.saib.models;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "accounts")
 public class Account {
+	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "account_number")
 	private long accountNumber;
+	
+	@Column(name="name")
 	private String name;
+	
+	@Column(name="gender")
 	private String gender;
+	
+	@Column(name="email")
 	private String email;
+	
+	@Column(name="phone")
 	private String phone;
+	
+	@Column(name="address")
 	private String address;
+	
+	@Column(name="account_type")
 	private String accountType;
+	
+	@Column(name="balance")
 	private double balance;
+	
+	@Column(name="credit_limit")
 	private double creditLimit;
+	
+	@Column(name="creation_date")
 	private LocalDateTime creationDate;
+
+	@Column(name="last_updated")
 	private LocalDateTime lastUpdated;
+	
+	@Column(name="status")
 	private String status;
+
 	public Account() {
 		super();
 		// TODO Auto-generated constructor stub
