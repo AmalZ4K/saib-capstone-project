@@ -16,7 +16,6 @@ import com.saib.util.Results;
 @Service
 public class TransactionsService {
 	@Autowired
-	static
 	TransactionsRepository transactionsRepository;
 	
 	public List<Transactions> getAllTransactions()
@@ -68,7 +67,7 @@ public class TransactionsService {
 		return result;
 	}
 	
-	public static String updateTransactions(Transactions transactions, long transaction_id)
+	public String updateTransactions(Transactions transactions, long transaction_id)
 	{
 		String result="";
 		
@@ -87,7 +86,7 @@ public class TransactionsService {
 		
 	}
 	
-	public static String deleteTransactions(long transaction_id)
+	public String deleteTransactions(long transaction_id)
 	{
 		String result="";
 		try {

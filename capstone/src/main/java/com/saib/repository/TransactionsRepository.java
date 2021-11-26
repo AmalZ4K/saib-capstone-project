@@ -10,5 +10,5 @@ import com.saib.models.Transactions;
 
 public interface TransactionsRepository extends JpaRepository<Transactions,Long> {
 	@Query(value = "SELECT m FROM Transactions m WHERE m.TransactionsType = :type")
-	public Optional<Transactions> findByType(String transaction_type);
+	public List<Transactions> findByType(String transaction_type);
 }
