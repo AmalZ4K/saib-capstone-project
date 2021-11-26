@@ -39,15 +39,14 @@ public class TransactionsService {
 		
 	}
 	
-	public Transactions getTransactionsByType(String transaction_type)
+	public List<Transactions> getTransactionsByType(String transaction_type)
 	{
-		Optional<Transactions> optional=transactionsRepository.findByType(transaction_type);
+		List<Transactions> list=transactionsRepository.findByType(transaction_type);
 		
-		if(optional.isPresent()) {
-			return optional.get();
-		}
+		if(!list.isEmpty())
+			return list;
 		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transactions with this Id Number:"+transaction_type+"doesn't exist");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transaction With type " + transaction_type + " does not exits");
 		}
 		
 	}

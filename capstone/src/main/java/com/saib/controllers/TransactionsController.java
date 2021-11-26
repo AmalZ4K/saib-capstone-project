@@ -51,9 +51,9 @@ public class TransactionsController {
 	@GetMapping("/transactions/{transaction_type}")
 	public ResponseEntity<ApiSucessPayload> getTransactionsByType(@PathVariable String transaction_type) 
 	{
-		Transactions transactions=transactionsService.getTransactionsByType(transaction_type); 
+        List<Transactions> list = transactionsService.getTransactionsByType(transaction_type);
 		
-		ApiSucessPayload payload=ApiSucessPayload.build(transactions, "Success",HttpStatus.OK);
+		ApiSucessPayload payload=ApiSucessPayload.build(list, "Success",HttpStatus.OK);
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload,HttpStatus.OK);
 		return response;
 	}
@@ -77,7 +77,7 @@ public class TransactionsController {
 	@PutMapping("/transactions/{transaction_id}")
 	public ResponseEntity<ApiSucessPayload> updateTransactions(@RequestBody Transactions transactions, @PathVariable long transaction_id)
 	{
-		String result=TransactionsService.updateTransactions(transactions, transaction_id); 
+		String result=transactionsService.updateTransactions(transactions, transaction_id); 
 		ApiSucessPayload payload=ApiSucessPayload.build(result,result,HttpStatus.OK);
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload, HttpStatus.OK);
 		return response;
@@ -87,7 +87,7 @@ public class TransactionsController {
 	@DeleteMapping("/transactions/{transaction_id}")
 	public ResponseEntity<ApiSucessPayload> deleteTransactions(@PathVariable long transaction_id) 
 	{
-		String result=TransactionsService.deleteTransactions(transaction_id); 
+		String result=transactionsService.deleteTransactions(transaction_id); 
 		ApiSucessPayload payload=ApiSucessPayload.build(result,result,HttpStatus.OK);
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload, HttpStatus.OK);
 		return response;
