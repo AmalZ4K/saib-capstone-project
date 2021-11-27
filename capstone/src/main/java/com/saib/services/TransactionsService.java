@@ -18,62 +18,62 @@ public class TransactionsService {
 	@Autowired
 	TransactionsRepository transactionsRepository;
 	
+	
+
 	public List<Transactions> getAllTransactions()
 	{
 		List<Transactions> list=transactionsRepository.findAll();
 		return list;
-	
-		
 	}
+		
 	
-	public Transactions getTransactionsbyID(long transaction_id)
+	public Transactions getTransactionByTransactionNumber(long transactionNumber)
 	{
-		Optional<Transactions> optional=transactionsRepository.findById(transaction_id);
+		Optional<Transactions> optional=transactionsRepository.findById(transactionNumber);
 		
 		if(optional.isPresent()) {
 			return optional.get();
 		}
 		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transactions with this Id Number:"+transaction_id+"doesn't exist");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transaction with Transaction Number:"+transactionNumber+"doesn't exist");
 		}
 		
 	}
 	
-	public List<Transactions> getTransactionsByType(String transaction_type)
+	public List<Transactions> getTransactionsByType(String type)
 	{
-		List<Transactions> list=transactionsRepository.findByType(transaction_type);
-		
+		List<Transactions> list=transactionsRepository.findByTransactionType(type);
 		if(!list.isEmpty())
 			return list;
 		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transaction With type " + transaction_type + " does not exits");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transaction With type " + type + " does not exits");
 		}
+		
 		
 	}
 	
-	
-	public String addTransaction(Transactions transactions)
+	public String addTransaction(Transactions transaction)
 	{
 		String result="";
-		Transactions storedTransactions=transactionsRepository.save(transactions);
-		if(storedTransactions!=null) {
+		Transactions storedTransaction=transactionsRepository.save(transaction);
+		if(storedTransaction!=null) {
 			result=Results.SUCCESS;
 		}
 		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transaction has not been sent!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transaction not created");
 		}
 		
 		return result;
 	}
 	
-	public String updateTransactions(Transactions transactions, long transaction_id)
+	public String updateTransaction(Transactions transaction, long transactionNumber)
 	{
 		String result="";
 		
-		transactions.setTransaction_id(transaction_id);
-		Transactions updatedTransactions=transactionsRepository.save(transactions);
+		transaction.setTransactionId(transactionNumber);
+		Transactions updatedTransaction=transactionsRepository.save(transaction);
 		
-		if(updatedTransactions!=null)
+		if(updatedTransaction!=null)
 		{
 			result=Results.SUCCESS;
 		}
@@ -85,11 +85,11 @@ public class TransactionsService {
 		
 	}
 	
-	public String deleteTransactions(long transaction_id)
+	public String deleteTransaction(long transactionNumber)
 	{
 		String result="";
 		try {
-			transactionsRepository.deleteById(transaction_id);
+		transactionsRepository.deleteById(transactionNumber);
 		
 		
 			result=Results.SUCCESS;
@@ -98,7 +98,6 @@ public class TransactionsService {
 		catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
-		
 		
 	}
 

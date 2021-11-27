@@ -23,8 +23,7 @@ public class TransactionsController {
 	@Autowired
 	TransactionsService transactionsService;
 	
-	
-	@GetMapping("/transactions")
+	@GetMapping("/transaction")
 	public ResponseEntity<ApiSucessPayload> getAllTransactions()
 	{
 		List<Transactions> list=transactionsService.getAllTransactions();
@@ -36,58 +35,56 @@ public class TransactionsController {
 		
 	}
 	
-	
-	@GetMapping("/transactions/{transaction_id}")
-	public ResponseEntity<ApiSucessPayload> getTransactionsbyID(@PathVariable long transaction_id) 
+	@GetMapping("/transaction/{transactionId}")
+	public ResponseEntity<ApiSucessPayload> getTransactionByTransactionNumber(@PathVariable long transactionId)
 	{
-		Transactions transactions=transactionsService.getTransactionsbyID(transaction_id); 
+		Transactions transaction=transactionsService.getTransactionByTransactionNumber(transactionId);
 		
-		ApiSucessPayload payload=ApiSucessPayload.build(transactions, "Success",HttpStatus.OK);
+		ApiSucessPayload payload=ApiSucessPayload.build(transaction, "Success",HttpStatus.OK);
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload,HttpStatus.OK);
 		return response;
 	}
 	
-	
-	@GetMapping("/transactions/{transaction_type}")
-	public ResponseEntity<ApiSucessPayload> getTransactionsByType(@PathVariable String transaction_type) 
+	@GetMapping("/transaction/type/{type}")
+	public ResponseEntity<ApiSucessPayload> getTransactionByType(@PathVariable String type)
 	{
-        List<Transactions> list = transactionsService.getTransactionsByType(transaction_type);
+		List<Transactions> list = transactionsService.getTransactionsByType(type);
 		
 		ApiSucessPayload payload=ApiSucessPayload.build(list, "Success",HttpStatus.OK);
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload,HttpStatus.OK);
 		return response;
 	}
 	
-	@PostMapping("/transactions")
-	public ResponseEntity<ApiSucessPayload> addTransaction(@RequestBody Transactions transactions) 
+	@PostMapping("/transaction")
+	public ResponseEntity<ApiSucessPayload> addTransaction(@RequestBody Transactions transaction)
 	{
 		ResponseEntity<ApiSucessPayload> response=null;
-		System.out.println(transactions);
-		String result=transactionsService.addTransaction(transactions);
+		System.out.println(transaction);
+		String result=transactionsService.addTransaction(transaction);
 		if(result.equalsIgnoreCase(Results.SUCCESS))
 		{
-			ApiSucessPayload payload=ApiSucessPayload.build(result, "The Transaction has been done successfully", HttpStatus.CREATED);
+			ApiSucessPayload payload=ApiSucessPayload.build(result, "Transaction created successfully", HttpStatus.CREATED);
 			response=new ResponseEntity<ApiSucessPayload>(payload,HttpStatus.CREATED);
+			
 		}
-		
 		return response;
-	
+		
 	}
 	
-	@PutMapping("/transactions/{transaction_id}")
-	public ResponseEntity<ApiSucessPayload> updateTransactions(@RequestBody Transactions transactions, @PathVariable long transaction_id)
+
+	@PutMapping("/transaction/{transactionId}")
+	public ResponseEntity<ApiSucessPayload> updateTransaction(@RequestBody Transactions transaction, @PathVariable long transactionId)
 	{
-		String result=transactionsService.updateTransactions(transactions, transaction_id); 
+		String result=transactionsService.updateTransaction(transaction, transactionId);
 		ApiSucessPayload payload=ApiSucessPayload.build(result,result,HttpStatus.OK);
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload, HttpStatus.OK);
 		return response;
 	}
 	
-	
-	@DeleteMapping("/transactions/{transaction_id}")
-	public ResponseEntity<ApiSucessPayload> deleteTransactions(@PathVariable long transaction_id) 
+	@DeleteMapping("/transaction/{transactionId}")
+	public ResponseEntity<ApiSucessPayload> deleteTransaction(@PathVariable long transactionId)
 	{
-		String result=transactionsService.deleteTransactions(transaction_id); 
+		String result=transactionsService.deleteTransaction(transactionId);
 		ApiSucessPayload payload=ApiSucessPayload.build(result,result,HttpStatus.OK);
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload, HttpStatus.OK);
 		return response;

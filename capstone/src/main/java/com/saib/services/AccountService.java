@@ -16,7 +16,6 @@ import com.saib.util.Results;
 
 @Service
 public class AccountService {
-	
 	@Autowired
 	AccountRepository accountRepository;
 	
@@ -38,6 +37,18 @@ public class AccountService {
 		else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Account with Account Number:"+accountNumber+"doesn't exist");
 		}
+		
+	}
+	
+	public List<Account> getAccountsByType(String type)
+	{
+		List<Account> list=accountRepository.findByAccountType(type);
+		if(!list.isEmpty())
+			return list;
+		else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Account With type " + type + " does not exits");
+		}
+		
 		
 	}
 	

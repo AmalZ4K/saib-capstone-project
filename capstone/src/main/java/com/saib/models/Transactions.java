@@ -9,44 +9,43 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "transactions")
 
 public class Transactions {
 	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "transaction_id")
-	private long transaction_id;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name="transaction_id")
+	private long transactionId;
 	
 	@Column(name="from_account")
-	private String from_account;
+	private long fromAccount;
 	
 	@Column(name="to_account")
-	private String to_account;
+	private long toAccount;
 	
 	@Column(name="from_account_name")
-	private String from_account_name;
+	private String fromAccountName;
 	
 	@Column(name="to_account_name")
-	private String to_account_name;
+	private String toAccountName;
 	
 	@Column(name="same_bank_transaction")
-	private boolean same_bank_transaction;
+	private Boolean sameBankTransaction;
 	
 	@Column(name="other_bank")
-	private String other_bank;
+	private String otherBank;
 	
 	@Column(name="amount")
 	private double amount;
 	
-	
 	@Column(name="date")
 	private LocalDateTime date;
-
+	
 	@Column(name="time")
 	private LocalDateTime time;
-	
+
 	@Column(name="transaction_type")
-	private String transaction_type;
+	private String transactionType;
 	
 	@Column(name="status")
 	private String status;
@@ -56,78 +55,78 @@ public class Transactions {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Transactions(long transaction_id, String from_account, String to_account, String from_account_name,
-			String to_account_name, boolean same_bank_transaction, String other_bank, double amount, LocalDateTime date,
-			LocalDateTime time, String transaction_type, String status) {
+	public Transactions(long transactionId, long fromAccount, long toAccount, String fromAccountName,
+			String toAccountName, Boolean sameBankTransaction, String otherBank, double amount, LocalDateTime date,
+			LocalDateTime time, String transactionType, String status) {
 		super();
-		this.transaction_id = transaction_id;
-		this.from_account = from_account;
-		this.to_account = to_account;
-		this.from_account_name = from_account_name;
-		this.to_account_name = to_account_name;
-		this.same_bank_transaction = same_bank_transaction;
-		this.other_bank = other_bank;
+		this.transactionId = transactionId;
+		this.fromAccount = fromAccount;
+		this.toAccount = toAccount;
+		this.fromAccountName = fromAccountName;
+		this.toAccountName = toAccountName;
+		this.sameBankTransaction = sameBankTransaction;
+		this.otherBank = otherBank;
 		this.amount = amount;
 		this.date = date;
 		this.time = time;
-		this.transaction_type = transaction_type;
+		this.transactionType = transactionType;
 		this.status = status;
 	}
 
-	public long getTransaction_id() {
-		return transaction_id;
+	public long getTransactionId() {
+		return transactionId;
 	}
 
-	public void setTransaction_id(long transaction_id) {
-		this.transaction_id = transaction_id;
+	public void setTransactionId(long transactionId) {
+		this.transactionId = transactionId;
 	}
 
-	public String getFrom_account() {
-		return from_account;
+	public long getFromAccount() {
+		return fromAccount;
 	}
 
-	public void setFrom_account(String from_account) {
-		this.from_account = from_account;
+	public void setFromAccount(long fromAccount) {
+		this.fromAccount = fromAccount;
 	}
 
-	public String getTo_account() {
-		return to_account;
+	public long getToAccount() {
+		return toAccount;
 	}
 
-	public void setTo_account(String to_account) {
-		this.to_account = to_account;
+	public void setToAccount(long toAccount) {
+		this.toAccount = toAccount;
 	}
 
-	public String getFrom_account_name() {
-		return from_account_name;
+	public String getFromAccountName() {
+		return fromAccountName;
 	}
 
-	public void setFrom_account_name(String from_account_name) {
-		this.from_account_name = from_account_name;
+	public void setFromAccountName(String fromAccountName) {
+		this.fromAccountName = fromAccountName;
 	}
 
-	public String getTo_account_name() {
-		return to_account_name;
+	public String getToAccountName() {
+		return toAccountName;
 	}
 
-	public void setTo_account_name(String to_account_name) {
-		this.to_account_name = to_account_name;
+	public void setToAccountName(String toAccountName) {
+		this.toAccountName = toAccountName;
 	}
 
-	public boolean isSame_bank_transaction() {
-		return same_bank_transaction;
+	public Boolean getSameBankTransaction() {
+		return sameBankTransaction;
 	}
 
-	public void setSame_bank_transaction(boolean same_bank_transaction) {
-		this.same_bank_transaction = same_bank_transaction;
+	public void setSameBankTransaction(Boolean sameBankTransaction) {
+		this.sameBankTransaction = sameBankTransaction;
 	}
 
-	public String getOther_bank() {
-		return other_bank;
+	public String getOtherBank() {
+		return otherBank;
 	}
 
-	public void setOther_bank(String other_bank) {
-		this.other_bank = other_bank;
+	public void setOtherBank(String otherBank) {
+		this.otherBank = otherBank;
 	}
 
 	public double getAmount() {
@@ -154,12 +153,12 @@ public class Transactions {
 		this.time = time;
 	}
 
-	public String getTransaction_type() {
-		return transaction_type;
+	public String getTransactionType() {
+		return transactionType;
 	}
 
-	public void setTransaction_type(String transaction_type) {
-		this.transaction_type = transaction_type;
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
 	}
 
 	public String getStatus() {
@@ -169,16 +168,5 @@ public class Transactions {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	@Override
-	public String toString() {
-		return "Transactions [transaction_id=" + transaction_id + ", from_account=" + from_account + ", to_account="
-				+ to_account + ", from_account_name=" + from_account_name + ", to_account_name=" + to_account_name
-				+ ", same_bank_transaction=" + same_bank_transaction + ", other_bank=" + other_bank + ", amount="
-				+ amount + ", date=" + date + ", time=" + time + ", transaction_type=" + transaction_type + ", status="
-				+ status + "]";
-	}
 	
-
-
 }
