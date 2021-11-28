@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.saib.config.ApiSucessPayload;
 import com.saib.models.Account;
@@ -53,6 +54,50 @@ public class AccountController {
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload,HttpStatus.OK);
 		return response;
 	}
+	
+	@GetMapping("/accounts/accountType/{type}")
+	public ResponseEntity<ApiSucessPayload> getAccountsByType(@PathVariable String type)
+	{
+		List<Account> list =accountService.getAccountsByType(type);
+		
+		ApiSucessPayload payload=ApiSucessPayload.build(list, "Success",HttpStatus.OK);
+		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload,HttpStatus.OK);
+		return response;
+	}
+	
+	
+	
+	@GetMapping("/accounts/gender/{gender}")
+	public ResponseEntity<ApiSucessPayload> getAccountByGender(@PathVariable String gender)
+	{
+		List<Account> list=accountService.getAccountsByGender(gender);
+		HttpStatus status=HttpStatus.OK;
+		ApiSucessPayload payload=ApiSucessPayload.build(list, "Accounts Found",status);
+		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload, status);
+		return response;
+		
+	}
+	
+	 /**@GetMapping("/accounts/all")
+	public ResponseEntity<ApiSucessPayload> getAllAccounts(@RequestParam int pageNumber, @RequestParam int pageSize)
+	{
+		List<Account> list = accountService.getAllAccount(pageNumber, pageSize);
+		HttpStatus status=HttpStatus.OK;
+		ApiSucessPayload payload=ApiSucessPayload.build(list, "Accounts Found",status);
+		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload, status);
+		return response;
+	} */
+	
+	@GetMapping("/accounts/all/sorted")
+	public ResponseEntity<ApiSucessPayload> getAllAccounts(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam String sortBy)
+	{
+		List<Account> list = accountService.getAllAccount(pageNumber, pageSize,sortBy);
+		HttpStatus status=HttpStatus.OK;
+		ApiSucessPayload payload=ApiSucessPayload.build(list, "Accounts Found",status);
+		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload, status);
+		return response;
+	}
+	
 	
 	@PostMapping("/accounts")
 	public ResponseEntity<ApiSucessPayload> addAccount(@RequestBody Account account)

@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,6 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.saib.models.Account;
 import com.saib.repository.AccountRepository;
 import com.saib.util.Results;
+
+import io.sentry.Sentry;
 
 @Service
 public class AccountService {
@@ -40,18 +46,21 @@ public class AccountService {
 		
 	}
 	
-	public List<Account> getAccountsByType(String type)
-	{
-		List<Account> list=accountRepository.findByAccountType(type);
-		if(!list.isEmpty())
-			return list;
-		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Account With type " + type + " does not exits");
+
+
+	 public List<Account> getAccountsByType(String type){
+			
+			List<Account> accounts=accountRepository.findByAccountType(type);
+			return accounts;
 		}
-		
-		
-	}
+
 	
+	 public List<Account> getAccountsByGender(String gender){
+	
+			List<Account> accounts=accountRepository.findAccountByGender(gender);
+			return accounts;
+	
+		}
 	
 	public String addAccount(Account account)
 	{
@@ -67,6 +76,24 @@ public class AccountService {
 		return result;
 	}
 	
+	public List<Account> getAllAccount(Integer pageNo, Integer pageSize, String sortBy){
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+				Page <Account> pagedResult = accountRepository.findAll(paging);
+				int totalElements=pagedResult.getNumberOfElements();
+				int total=pagedResult.getTotalPages();
+				System.out.println("Total Number of Pages are: "+ total + " and Total Elements are : "+totalElements);
+				if(pagedResult.hasContent())
+				{
+					return pagedResult.getContent();
+				}
+				
+				else 
+				{
+					return new ArrayList<Account>();
+				}
+	}
+	
 	public String updateAccount(Account account, long accountNumber)
 	{
 		String result="";
@@ -80,7 +107,9 @@ public class AccountService {
 		}
 		else
 		{
+			
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Record was not updated");
+			
 		}
 		return result;
 		
@@ -97,8 +126,10 @@ public class AccountService {
 			return result;
 		}
 		catch (Exception e) {
+			Sentry.captureException(e);
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
+		
 		
 		
 	}
