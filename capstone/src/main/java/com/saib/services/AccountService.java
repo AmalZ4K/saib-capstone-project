@@ -18,8 +18,6 @@ import com.saib.models.Account;
 import com.saib.repository.AccountRepository;
 import com.saib.util.Results;
 
-import io.sentry.Sentry;
-
 @Service
 public class AccountService {
 	@Autowired
@@ -76,6 +74,26 @@ public class AccountService {
 		return result;
 	}
 	
+	
+	public List<Account> getAllAccount(Integer pageNo, Integer pageSize){
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+		
+				Page <Account> pagedResult = accountRepository.findAll(paging);
+				int totalElements=pagedResult.getNumberOfElements();
+				int total=pagedResult.getTotalPages();
+				System.out.println("Total Number of Pages are: "+ total + " and Total Elements are : "+totalElements);
+				if(pagedResult.hasContent())
+				{
+					return pagedResult.getContent();
+				}
+				
+				else 
+				{
+					return new ArrayList<Account>();
+				}
+	}
+	
+	
 	public List<Account> getAllAccount(Integer pageNo, Integer pageSize, String sortBy){
 		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		
@@ -126,7 +144,7 @@ public class AccountService {
 			return result;
 		}
 		catch (Exception e) {
-			Sentry.captureException(e);
+			
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 		

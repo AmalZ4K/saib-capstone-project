@@ -77,8 +77,8 @@ public class AccountController {
 		return response;
 		
 	}
-	
-	 /**@GetMapping("/accounts/all")
+	 
+	 @GetMapping("/accounts/all")
 	public ResponseEntity<ApiSucessPayload> getAllAccounts(@RequestParam int pageNumber, @RequestParam int pageSize)
 	{
 		List<Account> list = accountService.getAllAccount(pageNumber, pageSize);
@@ -86,7 +86,7 @@ public class AccountController {
 		ApiSucessPayload payload=ApiSucessPayload.build(list, "Accounts Found",status);
 		ResponseEntity<ApiSucessPayload> response=new ResponseEntity<ApiSucessPayload>(payload, status);
 		return response;
-	} */
+	} 
 	
 	@GetMapping("/accounts/all/sorted")
 	public ResponseEntity<ApiSucessPayload> getAllAccounts(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam String sortBy)

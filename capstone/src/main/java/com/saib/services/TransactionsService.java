@@ -1,14 +1,20 @@
 package com.saib.services;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-
+import com.saib.models.Account;
 import com.saib.models.Transactions;
 import com.saib.repository.TransactionsRepository;
 import com.saib.util.Results;
@@ -40,16 +46,63 @@ public class TransactionsService {
 		
 	}
 	
-	public List<Transactions> getTransactionsByType(String type)
+	public List<Transactions> getTransactionByTransactionType(String transactionType)
 	{
-		List<Transactions> list=transactionsRepository.findByTransactionType(type);
-		if(!list.isEmpty())
-			return list;
-		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Transaction With type " + type + " does not exits");
-		}
+		List<Transactions> transactions=transactionsRepository.findTransactionByTransactionType(transactionType);
+		return transactions;
 		
+	
+	}
+
+	public List<Transactions> getTransactionByDate(LocalDateTime date)
+	{
+		List<Transactions> transactions=transactionsRepository.findTransactionByDate(date);
+		return transactions;
 		
+	
+	}
+	public List<Transactions> getTransactionByDateAndType(LocalDateTime date,String transactionType)
+	{
+		List<Transactions> transactions=transactionsRepository.findTransactionByDateAndTransactionType(date,transactionType);
+		return transactions;
+		
+	
+	}
+	public List<Transactions> getAllTransactions(Integer pageNo, Integer pageSize){
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+		
+				Page <Transactions> pagedResult = transactionsRepository.findAll(paging);
+				int totalElements=pagedResult.getNumberOfElements();
+				int total=pagedResult.getTotalPages();
+				System.out.println("Total Number of Pages are: "+ total + " and Total Elements are : "+totalElements);
+				if(pagedResult.hasContent())
+				{
+					return pagedResult.getContent();
+				}
+				
+				else 
+				{
+					return new ArrayList<Transactions>();
+				}
+	}
+	
+	
+	public List<Transactions> getAllTransactions(Integer pageNo, Integer pageSize, String sortBy){
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+				Page <Transactions> pagedResult = transactionsRepository.findAll(paging);
+				int totalElements=pagedResult.getNumberOfElements();
+				int total=pagedResult.getTotalPages();
+				System.out.println("Total Number of Pages are: "+ total + " and Total Elements are : "+totalElements);
+				if(pagedResult.hasContent())
+				{
+					return pagedResult.getContent();
+				}
+				
+				else 
+				{
+					return new ArrayList<Transactions>();
+				}
 	}
 	
 	public String addTransaction(Transactions transaction)
